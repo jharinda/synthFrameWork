@@ -8,6 +8,8 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "SynthSound.h"
+#include "SynthVoice.h"
 
 //==============================================================================
 SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
