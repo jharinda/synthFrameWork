@@ -24,6 +24,15 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
                        )
 #endif
 {
+    mySynth.clearVoices();
+
+    for (int i = 0; i < 5; i++) {
+        mySynth.addVoice(new SynthVoice());
+
+    }
+
+    mySynth.clearSounds();
+    mySynth.addSound(new SynthSound());
 }
 
 SynthFrameWorkAudioProcessor::~SynthFrameWorkAudioProcessor()
@@ -97,6 +106,10 @@ void SynthFrameWorkAudioProcessor::prepareToPlay (double sampleRate, int samples
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+
+    juce::ignoreUnused(samplesPerBlock);
+    lastSampleRate = sampleRate;
+    mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 }
 
 void SynthFrameWorkAudioProcessor::releaseResources()
@@ -131,6 +144,8 @@ bool SynthFrameWorkAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 
 void SynthFrameWorkAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    buffer.clear();
+    mySynth.renderNextBlock(buffer,midiMessages,0,buffer.getNumSamples());
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
