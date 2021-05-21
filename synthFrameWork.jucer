@@ -5,6 +5,35 @@
               pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn">
   <MAINGROUP id="QSAGWL" name="synthFrameWork">
     <GROUP id="{A062D10E-6F5D-A2C5-00F9-08625229A28F}" name="Source">
+      <GROUP id="{E557EE12-AF56-E276-8308-CF5500BC5C03}" name="src">
+        <GROUP id="{23A54AAA-7BDE-2F5A-F598-2E05076A0944}" name="libs">
+          <FILE id="Q5tUtR" name="fft.cpp" compile="1" resource="0" file="../Maximilian/src/libs/fft.cpp"/>
+          <FILE id="fYVjJj" name="fft.h" compile="0" resource="0" file="../Maximilian/src/libs/fft.h"/>
+          <FILE id="QnihIz" name="maxiAtoms.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiAtoms.cpp"/>
+          <FILE id="EEcGti" name="maxiAtoms.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiAtoms.h"/>
+          <FILE id="EJAjfQ" name="maxiBark.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiBark.cpp"/>
+          <FILE id="cWhi7j" name="maxiBark.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiBark.h"/>
+          <FILE id="EE3Fvn" name="maxiConvolve.cpp" compile="1" resource="0"
+                file="../Maximilian/src/libs/maxiConvolve.cpp"/>
+          <FILE id="F7ovZd" name="maxiConvolve.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiConvolve.h"/>
+          <FILE id="hS8DRh" name="maxiFFT.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiFFT.cpp"/>
+          <FILE id="RplVDG" name="maxiFFT.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiFFT.h"/>
+          <FILE id="aRPsOn" name="maxiGrains.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiGrains.cpp"/>
+          <FILE id="SEtrbN" name="maxiGrains.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiGrains.h"/>
+          <FILE id="XzfnLN" name="maxim.h" compile="0" resource="0" file="../Maximilian/src/libs/maxim.h"/>
+          <FILE id="BgAOsG" name="maxiMFCC.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiMFCC.cpp"/>
+          <FILE id="u4eYsY" name="maxiMFCC.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiMFCC.h"/>
+          <FILE id="Er1Rl1" name="maxiReverb.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiReverb.cpp"/>
+          <FILE id="xhG4Bo" name="maxiReverb.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiReverb.h"/>
+          <FILE id="QOl47C" name="maxiSynths.cpp" compile="1" resource="0" file="../Maximilian/src/libs/maxiSynths.cpp"/>
+          <FILE id="HHp9oJ" name="maxiSynths.h" compile="0" resource="0" file="../Maximilian/src/libs/maxiSynths.h"/>
+          <FILE id="iFvHQd" name="sineTable.h" compile="0" resource="0" file="../Maximilian/src/libs/sineTable.h"/>
+          <FILE id="CLiANY" name="stb_vorbis.c" compile="1" resource="0" file="../Maximilian/src/libs/stb_vorbis.c"/>
+          <FILE id="hgZBSn" name="stb_vorbis.h" compile="0" resource="0" file="../Maximilian/src/libs/stb_vorbis.h"/>
+        </GROUP>
+        <FILE id="nEQ9k4" name="maximilian.cpp" compile="1" resource="0" file="../Maximilian/src/maximilian.cpp"/>
+        <FILE id="z4gaGy" name="maximilian.h" compile="0" resource="0" file="../Maximilian/src/maximilian.h"/>
+      </GROUP>
       <FILE id="yV2WGS" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="fDPp7e" name="PluginProcessor.h" compile="0" resource="0"
@@ -14,13 +43,19 @@
       <FILE id="jkDWfY" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="WFxdsz" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="REUqFu" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="SrmBGe" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+      <FILE id="auRtUX" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="jQ7zWw" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
+      <FILE id="sxl1wK" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+      <FILE id="a8mPDM" name="Filter.cpp" compile="1" resource="0" file="Source/Filter.cpp"/>
+      <FILE id="egrO91" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="synthFrameWork"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="synthFrameWork" headerPath="F:\Git\Maximilian\src"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="synthFrameWork"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

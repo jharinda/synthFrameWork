@@ -12,6 +12,8 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 
+#include "maximilian.h"
+
 class SynthVoice :public juce::SynthesiserVoice 
 {
     public:
@@ -19,13 +21,18 @@ class SynthVoice :public juce::SynthesiserVoice
         {
             return dynamic_cast<SynthSound*>(sound) != nullptr;
         }
+
         //===========================================
 
         void startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchPosition) 
         {
             frequencey = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-            std::cout << midiNoteNumber << std::endl;
-            juce::Logger::outputDebugString(std::to_string(midiNoteNumber));
+            level = velocity;
+
+            juce::Logger::outputDebugString(to_string(frequencey));
+
+            env1.trigger = 1;
+            
         
 
 
@@ -34,7 +41,11 @@ class SynthVoice :public juce::SynthesiserVoice
 
         void stopNote (float velocity,bool allowTailOff)
         {
-            clearCurrentNote();
+            env1.trigger = 0;
+            allowTailOff = true;
+
+            if (velocity == 0 )
+                clearCurrentNote();
         }
 
         //============================================
@@ -55,10 +66,32 @@ class SynthVoice :public juce::SynthesiserVoice
 
         void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
         {
+            env1.setAttack(0.1);
+            env1.setRelease(2000.0);
+            env1.setDecay(500);
+            env1.setSustain(0.8);
+
+            for (int sample = 0; sample < numSamples; sample++)
+            {
+                double theWave = osc1.saw(frequencey);
+                double  env = env1.adsr(theWave, env1.trigger) * level;
+                double filtered = filter1.lores(env, 500, 0.4);
+
+                for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
+                {
+                    outputBuffer.addSample(channel, startSample, filtered);
+                }
+                ++startSample;
+            }
 
         }
 
 private:
     double level;
     double frequencey;
+
+    maxiOsc osc1;
+    maxiEnv env1;
+    maxiFilter filter1;
+
 };

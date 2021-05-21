@@ -6,6 +6,8 @@
 #include "SynthSound.h"
 #include "SynthVoice.h"
 
+
+
 //==============================================================================
 /**
 */
@@ -49,11 +51,48 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    float minAttackTime = 0;
+    float maxAttackTime = 3000;
+    float defaultAttackTime = 200;
+
+    float minDecayTime = 0;
+    float maxDecayTime = 3000;
+    float defaultDecayTime = 200;
+
+    float minSustainTime = 0;
+    float maxSustainTime = 3000;
+    float defaultSustainTime = 200;
+
+    float minReleaseTime = 0;
+    float maxReleaseTime = 3000;
+    float defaultReleaseTime = 200;
+
+    string attackTimeId = "attack";
+    string attackTimeName = "Attack";
+
+    string decayTimeId = "decay";
+    string decayTimeName = "Decay";
+
+    string sustainTimeId = "sustain";
+    string sustainTimeName = "Sustain";
+
+    string releaseTimeId = "release";
+    string releaseTimeName = "Release";
+
+    juce::AudioProcessorValueTreeState tree;
+
 private:
     //==============================================================================
     
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
+
+
+
+    
+
+    
+    
 
     double lastSampleRate;
 

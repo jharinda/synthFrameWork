@@ -13,6 +13,7 @@
 
 #include "SynthSound.h"
 #include "SynthVoice.h"
+#include "Envelope.h"
 
 //==============================================================================
 /**
