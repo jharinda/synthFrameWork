@@ -15,6 +15,7 @@
 #include "SynthVoice.h"
 #include "Envelope.h"
 #include "Oscillator.h"
+#include "Filter.h"
 
 //==============================================================================
 /**
@@ -37,6 +38,8 @@ private:
 
     Envelope envGUI;
     Oscillator oscGUI;
+    Filter filterGUI;
+    
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthFrameWorkAudioProcessorEditor)

@@ -75,6 +75,47 @@ class SynthVoice :public juce::SynthesiserVoice
             env1.setDecay(double(*decay));
             env1.setSustain(double(*sustain));
             env1.setRelease(double(*release));
+
+            
+        }
+
+        void setFilter(std::atomic<float>* filterTypeCombo, std::atomic<float>* cutoffCombo, std::atomic<float>* resonanceCombo)
+        {
+            filterType = *filterTypeCombo;
+            cutoff = *cutoffCombo;
+            resonance = *resonanceCombo;
+        }
+
+        float setEnv()
+        {
+            return env1.adsr(setWaveType(), env1.trigger)*level;
+        }
+
+        double getFilter()
+        {
+            if (filterType == 0)
+            {
+                
+                return filter1.lores(setEnv(), cutoff, resonance);
+            }
+
+            if (filterType == 1)
+            {
+                
+                return filter1.hires(setEnv(), cutoff, resonance);
+            }
+
+            if (filterType == 2)
+            {
+             
+                return filter1.bandpass(setEnv(), cutoff, resonance);
+            }
+
+            else
+            {
+                 
+                    return filter1.lores(setEnv(), cutoff, resonance);
+            }
         }
 
         void stopNote (float velocity,bool allowTailOff)
@@ -107,13 +148,10 @@ class SynthVoice :public juce::SynthesiserVoice
 
             for (int sample = 0; sample < numSamples; sample++)
             {
-                
-                double  env = env1.adsr(setWaveType(), env1.trigger) * level;
-                double filtered = filter1.lores(env, 500, 0.4);
 
                 for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
                 {
-                    outputBuffer.addSample(channel, startSample, filtered);
+                    outputBuffer.addSample(channel, startSample, getFilter());
                 }
                 ++startSample;
             }
@@ -124,6 +162,13 @@ private:
     double level;
     double frequencey;
     double theWave;
+
+    double filtered;
+    double env;
+
+    int filterType;
+    float cutoff;
+    float resonance;
 
     maxiOsc osc1;
     maxiEnv env1;

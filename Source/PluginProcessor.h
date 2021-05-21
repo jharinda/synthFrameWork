@@ -79,6 +79,18 @@ public:
     float maxWaveType = 3;
     float defaultWaveType = 0;
 
+    float minFilterType = 0;
+    float maxFilterType = 2;
+    float defaultFilterType = 0;
+
+    float minCutoff = 50;
+    float maxCutoff = 1000;
+    float defaultCutoff = 500;
+
+    float minResonance = 1;
+    float maxResonance = 5;
+    float defaultResonance = 1;
+
     string attackTimeId = "attack";
     string attackTimeName = "Attack";
 
@@ -93,6 +105,16 @@ public:
 
     string waveTypeId = "waveType";
     string waveTypeName = "WaveType";
+
+    string filterTypeId = "filterType";
+    string filterTypeName = "filterType";
+
+    string cutoffId = "cutoff";
+    string cutoffName = "Cutoff";
+
+    string resonanceId = "resonance";
+    string resonanceName = "Resonance";
+    
 
     juce::AudioProcessorValueTreeState tree;
 

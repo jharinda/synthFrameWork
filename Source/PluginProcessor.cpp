@@ -32,6 +32,10 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
     juce::NormalisableRange<float> sustainParam(minSustainTime, maxSustainTime);
     juce::NormalisableRange<float> releaseParam(minReleaseTime, maxReleaseTime);
     juce::NormalisableRange<float> waveTypeParam(minWaveType, maxWaveType);
+    juce::NormalisableRange<float> filterTypeParam(minFilterType, maxFilterType);
+    juce::NormalisableRange<float> cutoffParam(minCutoff, maxCutoff);
+    juce::NormalisableRange<float> resonanceParam(minResonance, maxResonance);
+
 
     tree.createAndAddParameter(attackTimeId, attackTimeName, attackTimeName, attackParam, defaultAttackTime, nullptr, nullptr);
     tree.createAndAddParameter(decayTimeId, attackTimeName,decayTimeName, attackParam, defaultDecayTime, nullptr, nullptr);
@@ -39,6 +43,10 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
     tree.createAndAddParameter(releaseTimeId, releaseTimeName, releaseTimeName, attackParam, defaultReleaseTime, nullptr, nullptr);
 
     tree.createAndAddParameter(waveTypeId, waveTypeName, waveTypeName, waveTypeParam, defaultWaveType, nullptr, nullptr);
+
+    tree.createAndAddParameter(filterTypeId, filterTypeName, filterTypeName, filterTypeParam, defaultFilterType, nullptr, nullptr);
+    tree.createAndAddParameter(cutoffId, cutoffName, cutoffName, cutoffParam, defaultCutoff, nullptr, nullptr);
+    tree.createAndAddParameter(resonanceId, resonanceName, resonanceName, resonanceParam, defaultResonance, nullptr, nullptr);
 
     tree.state = juce::ValueTree("Foo");
     mySynth.clearVoices();
@@ -174,6 +182,12 @@ void SynthFrameWorkAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
 
             myVoice->getWaveType(
                 tree.getRawParameterValue(waveTypeId)
+            );
+
+            myVoice->setFilter(
+                tree.getRawParameterValue(filterTypeId),
+                tree.getRawParameterValue(cutoffId),
+                tree.getRawParameterValue(resonanceId)
             );
         }
     }
