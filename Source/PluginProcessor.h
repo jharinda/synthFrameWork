@@ -56,9 +56,9 @@ public:
     float sustainTime;
     float releaseTime;
 
-    float minAttackTime = 0.1;
+    float minAttackTime = 0.0;
     float maxAttackTime = 5000;
-    float defaultAttackTime = 4999;
+    float defaultAttackTime = 0.5;
 
     float minDecayTime = 1;
     float maxDecayTime = 2000;
@@ -70,7 +70,7 @@ public:
 
     float minReleaseTime = 0;
     float maxReleaseTime = 5000;
-    float defaultReleaseTime = 100;
+    float defaultReleaseTime = 15;
 
     float envValueWidth = 40;
     float envValueHeight = 20;
@@ -83,12 +83,12 @@ public:
     float maxFilterType = 2;
     float defaultFilterType = 0;
 
-    float minCutoff = 50;
-    float maxCutoff = 1000;
+    float minCutoff = 20;
+    float maxCutoff = 8000;
     float defaultCutoff = 500;
 
-    float minResonance = 1;
-    float maxResonance = 5;
+    float minResonance = 0;
+    float maxResonance = 10;
     float defaultResonance = 1;
 
     string attackTimeId = "attack";

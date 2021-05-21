@@ -28,6 +28,7 @@ class SynthVoice :public juce::SynthesiserVoice
         {
             frequencey = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
             level = velocity;
+            
 
             
 
@@ -88,6 +89,7 @@ class SynthVoice :public juce::SynthesiserVoice
 
         float setEnv()
         {
+
             return env1.adsr(setWaveType(), env1.trigger)*level;
         }
 

@@ -25,6 +25,7 @@ Filter::Filter(SynthFrameWorkAudioProcessor& p) :audioProcessor(p)
     cutoffSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     cutoffSlider.setRange(audioProcessor.minCutoff, audioProcessor.maxCutoff);
     cutoffSlider.setValue(audioProcessor.defaultCutoff);
+    cutoffSlider.setSkewFactorFromMidPoint(1000);
     cutoffSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,true,audioProcessor.envValueWidth, audioProcessor.envValueHeight);
     addAndMakeVisible(&cutoffSlider);
 
