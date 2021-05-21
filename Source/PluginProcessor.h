@@ -72,6 +72,13 @@ public:
     float maxReleaseTime = 5000;
     float defaultReleaseTime = 100;
 
+    float envValueWidth = 40;
+    float envValueHeight = 20;
+
+    float minWaveType = 0;
+    float maxWaveType = 3;
+    float defaultWaveType = 0;
+
     string attackTimeId = "attack";
     string attackTimeName = "Attack";
 
@@ -83,6 +90,9 @@ public:
 
     string releaseTimeId = "release";
     string releaseTimeName = "Release";
+
+    string waveTypeId = "waveType";
+    string waveTypeName = "WaveType";
 
     juce::AudioProcessorValueTreeState tree;
 

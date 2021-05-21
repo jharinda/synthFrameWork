@@ -20,28 +20,28 @@ Envelope::Envelope(SynthFrameWorkAudioProcessor& p):audioProcessor(p)
     attackSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     attackSlider.setRange(audioProcessor.minAttackTime, audioProcessor.maxAttackTime);
     attackSlider.setValue(audioProcessor.defaultAttackTime);
-    attackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,30,30);
+    attackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,audioProcessor.envValueWidth, audioProcessor.envValueHeight);
 
     addAndMakeVisible(&attackSlider);
 
     decaySlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     decaySlider.setRange(audioProcessor.minDecayTime, audioProcessor.maxDecayTime);
     decaySlider.setValue(audioProcessor.defaultDecayTime);
-    decaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 30, 30);
+    decaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, audioProcessor.envValueWidth, audioProcessor.envValueHeight);
 
     addAndMakeVisible(&decaySlider);
 
     sustainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     sustainSlider.setRange(audioProcessor.minSustainTime, audioProcessor.maxSustainTime);
     sustainSlider.setValue(audioProcessor.defaultSustainTime);
-    sustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 30, 30);
+    sustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, audioProcessor.envValueWidth, audioProcessor.envValueHeight);
 
     addAndMakeVisible(&sustainSlider);
 
     releaseSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     releaseSlider.setRange(audioProcessor.minReleaseTime, audioProcessor.maxReleaseTime);
     releaseSlider.setValue(audioProcessor.defaultReleaseTime);
-    releaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 30, 30);
+    releaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, audioProcessor.envValueWidth, audioProcessor.envValueHeight);
     addAndMakeVisible(&releaseSlider);
 
     attackTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.tree, audioProcessor.attackTimeId, attackSlider);

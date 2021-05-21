@@ -14,6 +14,7 @@
 #include "SynthSound.h"
 #include "SynthVoice.h"
 #include "Envelope.h"
+#include "Oscillator.h"
 
 //==============================================================================
 /**
@@ -35,6 +36,7 @@ private:
     SynthFrameWorkAudioProcessor& audioProcessor;
 
     Envelope envGUI;
+    Oscillator oscGUI;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthFrameWorkAudioProcessorEditor)

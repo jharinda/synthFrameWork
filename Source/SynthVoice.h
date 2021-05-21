@@ -39,6 +39,35 @@ class SynthVoice :public juce::SynthesiserVoice
         }
         //============================================
 
+        void getWaveType(std::atomic<float>* selection)
+        {
+            theWave = *selection;
+        }
+
+        float setWaveType()
+        {
+            if (theWave == 0)
+            {
+                return osc1.sinewave(frequencey);
+            }
+            if (theWave == 1)
+            {
+                return osc1.saw(frequencey);
+            }
+            if (theWave == 2)
+            {
+                return osc1.triangle(frequencey);
+            }
+            if (theWave == 3)
+            {
+                return osc1.square(frequencey);
+            }
+            else
+            {
+                return osc1.sinewave(frequencey);
+            }
+        }
+
         void setADSR(std::atomic<float>* attack, std::atomic<float>* decay, std::atomic<float>* sustain, std::atomic<float>* release )
         {
             env1.setAttack(double(*attack));
@@ -78,8 +107,8 @@ class SynthVoice :public juce::SynthesiserVoice
 
             for (int sample = 0; sample < numSamples; sample++)
             {
-                double theWave = osc1.saw(frequencey);
-                double  env = env1.adsr(theWave, env1.trigger) * level;
+                
+                double  env = env1.adsr(setWaveType(), env1.trigger) * level;
                 double filtered = filter1.lores(env, 500, 0.4);
 
                 for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
@@ -94,6 +123,7 @@ class SynthVoice :public juce::SynthesiserVoice
 private:
     double level;
     double frequencey;
+    double theWave;
 
     maxiOsc osc1;
     maxiEnv env1;

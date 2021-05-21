@@ -31,11 +31,14 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
     juce::NormalisableRange<float> decayParam(minDecayTime, maxDecayTime);
     juce::NormalisableRange<float> sustainParam(minSustainTime, maxSustainTime);
     juce::NormalisableRange<float> releaseParam(minReleaseTime, maxReleaseTime);
+    juce::NormalisableRange<float> waveTypeParam(minWaveType, maxWaveType);
 
     tree.createAndAddParameter(attackTimeId, attackTimeName, attackTimeName, attackParam, defaultAttackTime, nullptr, nullptr);
     tree.createAndAddParameter(decayTimeId, attackTimeName,decayTimeName, attackParam, defaultDecayTime, nullptr, nullptr);
     tree.createAndAddParameter(sustainTimeId, sustainTimeName, sustainTimeName, attackParam, defaultSustainTime, nullptr, nullptr);
     tree.createAndAddParameter(releaseTimeId, releaseTimeName, releaseTimeName, attackParam, defaultReleaseTime, nullptr, nullptr);
+
+    tree.createAndAddParameter(waveTypeId, waveTypeName, waveTypeName, waveTypeParam, defaultWaveType, nullptr, nullptr);
 
     tree.state = juce::ValueTree("Foo");
     mySynth.clearVoices();
@@ -167,6 +170,10 @@ void SynthFrameWorkAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
                 tree.getRawParameterValue(decayTimeId),
                 tree.getRawParameterValue(sustainTimeId),
                 tree.getRawParameterValue(releaseTimeId)
+            );
+
+            myVoice->getWaveType(
+                tree.getRawParameterValue(waveTypeId)
             );
         }
     }

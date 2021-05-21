@@ -11,13 +11,14 @@
 
 //==============================================================================
 SynthFrameWorkAudioProcessorEditor::SynthFrameWorkAudioProcessorEditor (SynthFrameWorkAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p), envGUI (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), envGUI (p), oscGUI(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (800, 400);
 
     addAndMakeVisible(&envGUI);
+    addAndMakeVisible(&oscGUI);
     
 }
 
@@ -38,4 +39,5 @@ void SynthFrameWorkAudioProcessorEditor::resized()
     const int componentHeight = 200;
 
     envGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    oscGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
 }

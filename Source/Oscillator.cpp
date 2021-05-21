@@ -12,10 +12,24 @@
 #include "Oscillator.h"
 
 //==============================================================================
-Oscillator::Oscillator()
+Oscillator::Oscillator(SynthFrameWorkAudioProcessor& p) :audioProcessor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
+    setSize(200, 200);
+
+    waveType.addItem("Sine", 1);
+    waveType.addItem("Saw", 2);
+    waveType.addItem("Triangle", 3);
+    waveType.addItem("Squre", 4);
+
+    addAndMakeVisible(&waveType);
+    waveType.addListener(this);
+
+    
+
+    oscMenuTree = new juce::AudioProcessorValueTreeState::ComboBoxAttachment(audioProcessor.tree, audioProcessor.waveTypeId, waveType);
+    waveType.setJustificationType(juce::Justification::centred);
+
+
 
 }
 
@@ -25,27 +39,20 @@ Oscillator::~Oscillator()
 
 void Oscillator::paint (juce::Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
 
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (juce::Colours::grey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
-    g.setColour (juce::Colours::white);
-    g.setFont (14.0f);
-    g.drawText ("Oscillator", getLocalBounds(),
-                juce::Justification::centred, true);   // draw some placeholder text
 }
 
 void Oscillator::resized()
 {
-    // This method is where you should set the bounds of any child
-    // components that your component contains..
+    const int border = 40;
+
+    juce::Rectangle<int> area = getLocalBounds().reduced(border);
+
+    waveType.setBounds(area.removeFromTop(20));
+
+}
+
+void Oscillator::comboBoxChanged(juce::ComboBox* box)
+{
 
 }
