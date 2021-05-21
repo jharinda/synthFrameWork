@@ -21,9 +21,23 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),tree(*this,nullptr), attackTime(defaultAttackTime),
+    decayTime(defaultDecayTime),
+    sustainTime(defaultSustainTime),
+    releaseTime(defaultReleaseTime)
 #endif
 {
+    juce::NormalisableRange<float> attackParam(minAttackTime, maxAttackTime);
+    juce::NormalisableRange<float> decayParam(minDecayTime, maxDecayTime);
+    juce::NormalisableRange<float> sustainParam(minSustainTime, maxSustainTime);
+    juce::NormalisableRange<float> releaseParam(minReleaseTime, maxReleaseTime);
+
+    tree.createAndAddParameter(attackTimeId, attackTimeName, attackTimeName, attackParam, defaultAttackTime, nullptr, nullptr);
+    tree.createAndAddParameter(decayTimeId, attackTimeName,decayTimeName, attackParam, defaultDecayTime, nullptr, nullptr);
+    tree.createAndAddParameter(sustainTimeId, sustainTimeName, sustainTimeName, attackParam, defaultSustainTime, nullptr, nullptr);
+    tree.createAndAddParameter(releaseTimeId, releaseTimeName, releaseTimeName, attackParam, defaultReleaseTime, nullptr, nullptr);
+
+    tree.state = juce::ValueTree("Foo");
     mySynth.clearVoices();
 
     for (int i = 0; i < 5; i++) {
@@ -144,8 +158,22 @@ bool SynthFrameWorkAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 
 void SynthFrameWorkAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+
+    for (int i = 0; i < mySynth.getNumVoices(); i++) {
+        if (myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i)))
+        {
+            myVoice->setADSR(
+                tree.getRawParameterValue(attackTimeId),
+                tree.getRawParameterValue(decayTimeId),
+                tree.getRawParameterValue(sustainTimeId),
+                tree.getRawParameterValue(releaseTimeId)
+            );
+        }
+    }
     buffer.clear();
     mySynth.renderNextBlock(buffer,midiMessages,0,buffer.getNumSamples());
+
+    
    
 
 

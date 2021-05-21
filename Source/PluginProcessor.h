@@ -51,21 +51,26 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float minAttackTime = 0;
-    float maxAttackTime = 3000;
-    float defaultAttackTime = 200;
+    float attackTime;
+    float decayTime;
+    float sustainTime;
+    float releaseTime;
 
-    float minDecayTime = 0;
-    float maxDecayTime = 3000;
+    float minAttackTime = 0.1;
+    float maxAttackTime = 5000;
+    float defaultAttackTime = 4999;
+
+    float minDecayTime = 1;
+    float maxDecayTime = 2000;
     float defaultDecayTime = 200;
 
     float minSustainTime = 0;
-    float maxSustainTime = 3000;
-    float defaultSustainTime = 200;
+    float maxSustainTime = 1;
+    float defaultSustainTime = 1;
 
     float minReleaseTime = 0;
-    float maxReleaseTime = 3000;
-    float defaultReleaseTime = 200;
+    float maxReleaseTime = 5000;
+    float defaultReleaseTime = 100;
 
     string attackTimeId = "attack";
     string attackTimeName = "Attack";

@@ -45,6 +45,9 @@ Envelope::Envelope(SynthFrameWorkAudioProcessor& p):audioProcessor(p)
     addAndMakeVisible(&releaseSlider);
 
     attackTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.tree, audioProcessor.attackTimeId, attackSlider);
+    sustainTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.tree, audioProcessor.decayTimeId, decaySlider);
+    decayTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.tree, audioProcessor.sustainTimeId, sustainSlider);
+    releaseTree = new juce::AudioProcessorValueTreeState::SliderAttachment(audioProcessor.tree, audioProcessor.releaseTimeId, releaseSlider);
 
     
 
@@ -63,6 +66,9 @@ void Envelope::paint (juce::Graphics& g)
 
 void Envelope::resized()
 {
-
+    attackSlider.setBounds(0, 10, 40, 100);
+    decaySlider.setBounds(50, 10, 40, 100);
+    sustainSlider.setBounds(110, 10, 40, 100);
+    releaseSlider.setBounds(160, 10, 40, 100);
 
 }

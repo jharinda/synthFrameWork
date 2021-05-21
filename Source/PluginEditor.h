@@ -34,5 +34,8 @@ private:
     // access the processor object that created it.
     SynthFrameWorkAudioProcessor& audioProcessor;
 
+    Envelope envGUI;
+
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthFrameWorkAudioProcessorEditor)
 };

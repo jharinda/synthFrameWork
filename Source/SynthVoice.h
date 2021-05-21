@@ -29,7 +29,7 @@ class SynthVoice :public juce::SynthesiserVoice
             frequencey = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
             level = velocity;
 
-            juce::Logger::outputDebugString(to_string(frequencey));
+            
 
             env1.trigger = 1;
             
@@ -38,6 +38,15 @@ class SynthVoice :public juce::SynthesiserVoice
 
         }
         //============================================
+
+        void setADSR(std::atomic<float>* attack, std::atomic<float>* decay, std::atomic<float>* sustain, std::atomic<float>* release )
+        {
+            env1.setAttack(double(*attack));
+            
+            env1.setDecay(double(*decay));
+            env1.setSustain(double(*sustain));
+            env1.setRelease(double(*release));
+        }
 
         void stopNote (float velocity,bool allowTailOff)
         {
@@ -66,10 +75,6 @@ class SynthVoice :public juce::SynthesiserVoice
 
         void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) 
         {
-            env1.setAttack(0.1);
-            env1.setRelease(2000.0);
-            env1.setDecay(500);
-            env1.setSustain(0.8);
 
             for (int sample = 0; sample < numSamples; sample++)
             {

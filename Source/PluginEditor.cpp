@@ -11,11 +11,13 @@
 
 //==============================================================================
 SynthFrameWorkAudioProcessorEditor::SynthFrameWorkAudioProcessorEditor (SynthFrameWorkAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), envGUI (p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (800, 400);
+
+    addAndMakeVisible(&envGUI);
     
 }
 
@@ -26,16 +28,14 @@ SynthFrameWorkAudioProcessorEditor::~SynthFrameWorkAudioProcessorEditor()
 //==============================================================================
 void SynthFrameWorkAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    
 }
 
 void SynthFrameWorkAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    juce::Rectangle<int> area = getLocalBounds();
+    const int componentWidth = 200;
+    const int componentHeight = 200;
+
+    envGUI.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
 }
