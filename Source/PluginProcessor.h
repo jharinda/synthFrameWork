@@ -51,6 +51,8 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void updateFilter();
+
     float attackTime;
     float decayTime;
     float sustainTime;
@@ -84,10 +86,10 @@ public:
     float defaultFilterType = 0;
 
     float minCutoff = 20;
-    float maxCutoff = 8000;
+    float maxCutoff = 20000;
     float defaultCutoff = 500;
 
-    float minResonance = 0;
+    float minResonance = 1;
     float maxResonance = 10;
     float defaultResonance = 1;
 
@@ -123,13 +125,12 @@ private:
     
     juce::Synthesiser mySynth;
     SynthVoice* myVoice;
-
-
-
     
+    juce::dsp::ProcessorDuplicator <
+        juce::dsp::StateVariableFilter::Filter<float>, 
+        juce::dsp::StateVariableFilter::Parameters<float>
+    > stateVariableFilter;
 
-    
-    
 
     double lastSampleRate;
 

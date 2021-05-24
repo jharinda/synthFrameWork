@@ -14,17 +14,14 @@
 //==============================================================================
 SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       ),tree(*this,nullptr), attackTime(defaultAttackTime),
-    decayTime(defaultDecayTime),
-    sustainTime(defaultSustainTime),
-    releaseTime(defaultReleaseTime)
+    : AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+        .withInput("Input", juce::AudioChannelSet::stereo(), true)
+#endif
+        .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+#endif
+    ), tree(*this, nullptr), lastSampleRate(44100)
 #endif
 {
     juce::NormalisableRange<float> attackParam(minAttackTime, maxAttackTime);
@@ -34,6 +31,8 @@ SynthFrameWorkAudioProcessor::SynthFrameWorkAudioProcessor()
     juce::NormalisableRange<float> waveTypeParam(minWaveType, maxWaveType);
     juce::NormalisableRange<float> filterTypeParam(minFilterType, maxFilterType);
     juce::NormalisableRange<float> cutoffParam(minCutoff, maxCutoff);
+
+    cutoffParam.setSkewForCentre(1000.0f);
     juce::NormalisableRange<float> resonanceParam(minResonance, maxResonance);
 
 
@@ -132,9 +131,19 @@ void SynthFrameWorkAudioProcessor::prepareToPlay (double sampleRate, int samples
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 
-    juce::ignoreUnused(samplesPerBlock);
+    updateFilter();
     lastSampleRate = sampleRate;
+    juce::ignoreUnused(samplesPerBlock);
+    
     mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
+
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = lastSampleRate;
+    spec.numChannels = getNumOutputChannels();
+    spec.maximumBlockSize = samplesPerBlock;
+
+    stateVariableFilter.reset();
+    stateVariableFilter.prepare(spec);
 }
 
 void SynthFrameWorkAudioProcessor::releaseResources()
@@ -184,20 +193,41 @@ void SynthFrameWorkAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
                 tree.getRawParameterValue(waveTypeId)
             );
 
-            myVoice->setFilter(
-                tree.getRawParameterValue(filterTypeId),
-                tree.getRawParameterValue(cutoffId),
-                tree.getRawParameterValue(resonanceId)
-            );
+    
         }
     }
     buffer.clear();
     mySynth.renderNextBlock(buffer,midiMessages,0,buffer.getNumSamples());
 
-    
-   
+    updateFilter();
+    juce::dsp::AudioBlock<float> block(buffer);
+    stateVariableFilter.process(juce::dsp::ProcessContextReplacing<float>(block));
 
+}
 
+void SynthFrameWorkAudioProcessor::updateFilter()
+{
+    int filterChoice = *tree.getRawParameterValue(filterTypeId);
+    float cutoff = *tree.getRawParameterValue(cutoffId);
+    float resonance = *tree.getRawParameterValue(resonanceId);
+
+    if (filterChoice == 0 )
+    {
+        stateVariableFilter.state->type = juce::dsp::StateVariableFilter::StateVariableFilterType::lowPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, cutoff, resonance);
+    }
+
+    if (filterChoice == 1)
+    {
+        stateVariableFilter.state->type = juce::dsp::StateVariableFilter::StateVariableFilterType::highPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, cutoff, resonance);
+    }
+
+    if (filterChoice == 2)
+    {
+        stateVariableFilter.state->type = juce::dsp::StateVariableFilter::StateVariableFilterType::bandPass;
+        stateVariableFilter.state->setCutOffFrequency(lastSampleRate, cutoff, resonance);
+    }
 }
 
 //==============================================================================

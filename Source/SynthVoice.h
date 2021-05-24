@@ -28,14 +28,8 @@ class SynthVoice :public juce::SynthesiserVoice
         {
             frequencey = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
             level = velocity;
-            
-
-            
 
             env1.trigger = 1;
-            
-        
-
 
         }
         //============================================
@@ -93,33 +87,7 @@ class SynthVoice :public juce::SynthesiserVoice
             return env1.adsr(setWaveType(), env1.trigger)*level;
         }
 
-        double getFilter()
-        {
-            if (filterType == 0)
-            {
-                
-                return filter1.lores(setEnv(), cutoff, resonance);
-            }
-
-            if (filterType == 1)
-            {
-                
-                return filter1.hires(setEnv(), cutoff, resonance);
-            }
-
-            if (filterType == 2)
-            {
-             
-                return filter1.bandpass(setEnv(), cutoff, resonance);
-            }
-
-            else
-            {
-                 
-                    return filter1.lores(setEnv(), cutoff, resonance);
-            }
-        }
-
+       
         void stopNote (float velocity,bool allowTailOff)
         {
             env1.trigger = 0;
@@ -153,7 +121,7 @@ class SynthVoice :public juce::SynthesiserVoice
 
                 for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
                 {
-                    outputBuffer.addSample(channel, startSample, getFilter());
+                    outputBuffer.addSample(channel, startSample, setEnv());
                 }
                 ++startSample;
             }
